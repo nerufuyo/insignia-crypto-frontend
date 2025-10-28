@@ -5,10 +5,12 @@ import { Button } from '../components/common/Button';
 import { SkeletonLoader } from '../components/common/Loading';
 import { balanceService } from '../services/balance.service';
 import { formatCurrency } from '../utils/format';
-import { TopupModal } from '../components/dashboard/TopupModal';
-import { TransferModal } from '../components/dashboard/TransferModal';
-import { RecentTransactions } from '../components/dashboard/RecentTransactions';
-import { StatsCards } from '../components/dashboard/StatsCards';
+import { 
+  TopupModal, 
+  TransferModal, 
+  RecentTransactions, 
+  StatsCards 
+} from '../components/dashboard';
 import toast from 'react-hot-toast';
 
 export const DashboardPage = () => {
