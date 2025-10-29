@@ -20,6 +20,7 @@ export const TransferModal = ({ isOpen, onClose, onSuccess }: TransferModalProps
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    console.log('Transfer submit started');
 
     if (!toUsername.trim()) {
       toast.error('Please enter a recipient username');
@@ -39,18 +40,22 @@ export const TransferModal = ({ isOpen, onClose, onSuccess }: TransferModalProps
 
     setLoading(true);
     try {
-      await transferService.transfer({
+      console.log('Calling transfer API...');
+      const response = await transferService.transfer({
         to_username: toUsername.trim(),
         amount: amountNum,
       });
+      console.log('Transfer response:', response);
       toast.success(`Successfully transferred ${amountNum.toLocaleString()} to ${toUsername}`);
       setToUsername('');
       setAmount('');
       onClose();
+      console.log('Calling onSuccess...');
       onSuccess();
+      console.log('Transfer complete');
     } catch (error) {
-      toast.error('Transfer failed. Please check your balance and try again.');
       console.error('Transfer error:', error);
+      toast.error('Transfer failed. Please check your balance and try again.');
     } finally {
       setLoading(false);
     }

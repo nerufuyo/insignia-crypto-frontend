@@ -1,4 +1,12 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faWallet, 
+  faSync,
+  faCoins,
+  faPaperPlane
+} from '@fortawesome/free-solid-svg-icons';
 import { MainLayout } from '../components/layout/MainLayout';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -43,53 +51,96 @@ export const DashboardPage = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <Button onClick={handleRefresh} variant="secondary">
-            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+      <div className="space-y-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between"
+        >
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="mt-1 text-gray-600">Manage your crypto wallet</p>
+          </div>
+          <Button onClick={handleRefresh} variant="secondary" icon={<FontAwesomeIcon icon={faSync} className={loading ? 'animate-spin' : ''} />}>
             Refresh
           </Button>
-        </div>
+        </motion.div>
 
-        <Card className="bg-gradient-to-br from-primary-500 to-primary-700 text-white">
-          <div>
-            <p className="text-primary-100 text-sm font-medium mb-2">Total Balance</p>
-            {loading ? (
-              <SkeletonLoader className="h-12 w-48 bg-primary-400" />
-            ) : (
-              <h2 className="text-4xl font-bold">{formatCurrency(balance)}</h2>
-            )}
-          </div>
-          <div className="mt-6 flex space-x-4">
-            <Button
-              onClick={() => setIsTopupModalOpen(true)}
-              variant="secondary"
-              className="bg-white text-primary-700 hover:bg-gray-100"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Top Up
-            </Button>
-            <Button
-              onClick={() => setIsTransferModalOpen(true)}
-              variant="secondary"
-              className="bg-white text-primary-700 hover:bg-gray-100"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-              </svg>
-              Transfer
-            </Button>
-          </div>
-        </Card>
+        {/* Balance Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Card className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none relative overflow-hidden">
+            {/* Decorative Background */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24" />
+            
+            <div className="relative z-10">
+              <div className="flex items-center mb-3">
+                <div className="p-3 bg-white rounded-lg mr-3 shadow-lg">
+                  <FontAwesomeIcon icon={faWallet} className="text-2xl text-primary-600" />
+                </div>
+                <div>
+                  <p className="text-primary-100 text-sm font-medium">Total Balance</p>
+                  <p className="text-xs text-primary-200">Available funds</p>
+                </div>
+              </div>
+              {loading ? (
+                <SkeletonLoader className="h-14 w-64 bg-primary-500" />
+              ) : (
+                <motion.h2
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-5xl font-bold mb-6"
+                >
+                  {formatCurrency(balance)}
+                </motion.h2>
+              )}
+              <div className="flex space-x-4">
+                <Button
+                  onClick={() => setIsTopupModalOpen(true)}
+                  variant="secondary"
+                  className="!bg-white !text-primary-600 !border-white hover:!bg-gray-50 hover:!text-primary-700 font-semibold shadow-lg"
+                  icon={<FontAwesomeIcon icon={faCoins} />}
+                >
+                  Top Up
+                </Button>
+                <Button
+                  onClick={() => setIsTransferModalOpen(true)}
+                  variant="secondary"
+                  className="!bg-white !text-primary-600 !border-white hover:!bg-gray-50 hover:!text-primary-700 font-semibold shadow-lg"
+                  icon={<FontAwesomeIcon icon={faPaperPlane} />}
+                >
+                  Transfer
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
 
-        <StatsCards refreshKey={refreshKey} />
+        {/* Stats Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <StatsCards refreshKey={refreshKey} />
+        </motion.div>
 
-        <RecentTransactions refreshKey={refreshKey} />
+        {/* Recent Transactions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <RecentTransactions refreshKey={refreshKey} />
+        </motion.div>
       </div>
 
       <TopupModal
