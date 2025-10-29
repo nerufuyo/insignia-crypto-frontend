@@ -2,13 +2,17 @@ import { api } from './api';
 import type { LoginRequest, LoginResponse } from '../types';
 
 export const authService = {
-  register: async (username: string): Promise<LoginResponse> => {
-    const response = await api.post<LoginResponse>('/register', { username });
+  register: async (username: string, password: string): Promise<LoginResponse> => {
+    console.log('[Auth Service] Calling register with:', { username });
+    const response = await api.post<LoginResponse>('/register', { username, password });
+    console.log('[Auth Service] Register response:', response.data);
     return response.data;
   },
 
   login: async (data: LoginRequest): Promise<LoginResponse> => {
+    console.log('[Auth Service] Calling login with:', { username: data.username });
     const response = await api.post<LoginResponse>('/login', data);
+    console.log('[Auth Service] Login response:', response.data);
     return response.data;
   },
 

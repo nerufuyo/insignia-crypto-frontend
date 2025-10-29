@@ -2,6 +2,9 @@ import axios, { AxiosError, type AxiosInstance, type InternalAxiosRequestConfig 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
 
+// v1.0.2 - Debug logging
+console.log('[API Service] Base URL:', API_BASE_URL);
+
 class ApiService {
   private api: AxiosInstance;
 
@@ -12,6 +15,8 @@ class ApiService {
         'Content-Type': 'application/json',
       },
     });
+    
+    console.log('[API Service] Initialized with baseURL:', API_BASE_URL);
 
     this.api.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
@@ -71,12 +71,20 @@ export const LoginPage = () => {
             fullWidth
             loading={loading}
           >
-            Login / Register
+            Login
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>New users will be automatically registered</p>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{' '}
+            <Link
+              to="/register"
+              className="font-medium text-primary-600 hover:text-primary-500 transition-colors"
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
     </div>
