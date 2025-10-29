@@ -1,0 +1,7 @@
+{
+  "name": "insignia-crypto-frontend",
+  "compatibility_date": "2025-10-29",
+  "assets": {
+    "directory": "./dist"
+  }
+}
