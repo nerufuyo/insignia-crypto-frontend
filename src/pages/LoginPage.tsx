@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 export const LoginPage = () => {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -19,13 +20,18 @@ export const LoginPage = () => {
       return;
     }
 
+    if (!password.trim()) {
+      toast.error('Please enter a password');
+      return;
+    }
+
     setLoading(true);
     try {
-      await login(username.trim());
+      await login(username.trim(), password.trim());
       toast.success('Login successful!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error('Login failed. Please try again.');
+      toast.error('Login failed. Please check your credentials.');
       console.error('Login error:', error);
     } finally {
       setLoading(false);
@@ -39,7 +45,7 @@ export const LoginPage = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Insignia Crypto Wallet
           </h1>
-          <p className="text-gray-600">Enter your username to continue</p>
+          <p className="text-gray-600">Enter your credentials to continue</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -50,6 +56,14 @@ export const LoginPage = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoFocus
+          />
+
+          <Input
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <Button
