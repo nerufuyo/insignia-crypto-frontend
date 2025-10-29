@@ -3,5 +3,8 @@
   "compatibility_date": "2025-10-29",
   "assets": {
     "directory": "./dist"
+  },
+  "vars": {
+    "VITE_API_BASE_URL": "https://insignia-crypto-backend-production.up.railway.app"
   }
 }
